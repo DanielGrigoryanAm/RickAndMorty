@@ -4,8 +4,8 @@ part 'rick_morty_api.chopper.dart';
 
 @ChopperApi()
 abstract class RickMortyApiService extends ChopperService {
-  @Get(path: '/charecter')
-  Future<Response> getCharecters();
+  @Get(path: '/character')
+  Future<Response> getCharacters();
 
   static RickMortyApiService create([ChopperClient? client]) => _$RickMortyApiService(client);
 }

@@ -12,7 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  meta: ^1.9.1
   chopper: ^8.0.4
+  bloc: ^9.0.0
+  flutter_bloc: ^9.0.0
   cupertino_icons: ^1.0.8
 
 dev_dependencies:

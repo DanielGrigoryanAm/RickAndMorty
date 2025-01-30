@@ -19,8 +19,8 @@ final class _$RickMortyApiService extends RickMortyApiService {
   final Type definitionType = RickMortyApiService;
 
   @override
-  Future<Response<dynamic>> getCharecters() {
-    final Uri $url = Uri.parse('/charecter');
+  Future<Response<dynamic>> getCharacters() {
+    final Uri $url = Uri.parse('/character');
     final Request $request = Request(
       'GET',
       $url,
