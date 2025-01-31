@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_and_morty/bloc/characters_bloc.dart';
 import 'package:rick_and_morty/models/characters_model.dart';
+import 'package:rick_and_morty/widgets/character_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => CharactersBloc()..add(GetCharactersEvent()),
       child: Scaffold(
-        appBar: AppBar(title: Text("Персонажи Рика и Морти")),
+        appBar: AppBar(title: Text("Characters Rick and Morty")),
         body: BlocBuilder<CharactersBloc, CharactersState>(
           builder: (context, state) {
             if (state is LoadingCharactersState) {
@@ -29,7 +30,16 @@ class HomeScreen extends StatelessWidget {
                   final character = characters[index];
                   return Card(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CharacterScreen(
+                                    characters: characters,
+                                    index: index,
+                                  )),
+                        );
+                      },
                       child: Column(
                         children: [
                           Expanded(
@@ -42,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(character.name),
-                                Text(character.status)
+                                Text(character.species)
                               ],
                             ),
                           )
@@ -53,9 +63,9 @@ class HomeScreen extends StatelessWidget {
                 },
               );
             } else if (state is ErrorCharactersState) {
-              return Center(child: Text("Ошибка: ${state.message}"));
+              return Center(child: Text("Error: ${state.message}"));
             }
-            return Center(child: Text("Загрузка персонажей..."));
+            return Center(child: Text("Loading..."));
           },
         ),
       ),
