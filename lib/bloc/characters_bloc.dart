@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:rick_and_morty/models/characters_model.dart';
 import 'package:rick_and_morty/services/chopper_client.dart';
 import 'package:rick_and_morty/services/rick_morty_api.dart';
@@ -14,9 +14,22 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
 
       try {
         final characters = await fetchCharacters();
-        emit(LoadedCharactersState(characters: characters));
+        emit(LoadedCharactersState(
+            characters: characters, filteredCharacters: characters));
       } catch (e) {
         emit(ErrorCharactersState(message: e.toString()));
+      }
+    });
+
+    on<SearchCharactersEvent>((event, emit) {
+      final currentState = state;
+      if (currentState is LoadedCharactersState) {
+        final filtered = currentState.characters
+            .where((character) => character.name
+                .toLowerCase()
+                .startsWith(event.query.toLowerCase()))
+            .toList();
+        emit(currentState.copyWith(filteredCharacters: filtered));
       }
     });
   }
